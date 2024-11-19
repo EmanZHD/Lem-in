@@ -1,4 +1,4 @@
-package main
+package cmd
 
 import (
 	"fmt"
@@ -6,6 +6,21 @@ import (
 	"regexp"
 	"strings"
 )
+
+type Info struct {
+	Data          []string
+	Nbr           int
+	Rooms         []string
+	Start         string
+	End           string
+	Links         []string
+	AdjList       map[string][]string
+	PathSource    map[string]string
+	ShortestPaths [][]string
+	Collect       [][]string
+	Groups        [][][]string
+	// Visit        map[string]string
+}
 
 func Error(mssg any) {
 	fmt.Println("\033[31m"+"Error:", fmt.Sprint(mssg)+"\033[0m")

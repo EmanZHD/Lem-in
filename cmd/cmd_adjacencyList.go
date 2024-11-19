@@ -1,9 +1,9 @@
-package main
+package cmd
 
 import "strings"
 
 // [t E a m end] [0 o n e end] [h A c k end]
-func BuildGraph(info *Info) map[string][]string {
+func BuildAdjList(info *Info) map[string][]string {
 	links := info.Links
 	rooms := info.Rooms
 	paths := map[string][]string{}

@@ -1,4 +1,4 @@
-package main
+package cmd
 
 import (
 	"os"
@@ -56,5 +56,5 @@ func ProcessLines(info *Info) {
 	if len(info.Start) == 0 || len(info.End) == 0 || len(info.Rooms) == 0 || len(info.Links) == 0 {
 		Error("INcomplete data")
 	}
-	info.Graph = BuildGraph(info)
+	info.AdjList = BuildAdjList(info)
 }

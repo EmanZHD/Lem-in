@@ -1,8 +1,8 @@
-package main
+package cmd
 
 func BfsHelper(info *Info, visitedPath [][]string) {
-	visitedPath = info.Collect
-	for _, adj := range info.Graph[info.End] {
+	// visitedPath = info.Collect
+	for _, adj := range info.AdjList[info.End] {
 		BfsAlgo(info, adj, visitedPath)
 		// delete(info.Visit, adj)
 		// delete(info.Visit, info.Start)
@@ -20,7 +20,7 @@ func BfsAlgo(info *Info, adj string, visitedPath [][]string) {
 		q = q[1:]
 		Visit[node] = prevNOde
 		if current != info.Start {
-			for _, child := range info.Graph[current] {
+			for _, child := range info.AdjList[current] {
 				visitedPath := info.Collect
 				exist := Contain(visitedPath)
 				_, visited := Visit[child]
