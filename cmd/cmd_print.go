@@ -3,27 +3,30 @@ package cmd
 import (
 	"fmt"
 	"sort"
+	"strconv"
 )
 
 func PrintPaths(info *Info) {
 	bestPath := make(map[int][]int)
 	// tempArr := []int{}
-	for _, group := range info.Groups {
-		// SortPaths(group)
-		fmt.Println("** ", SortPaths(group))
-		// i := 0
-		// for i <= info.Nbr {
-		// 	for j := 0; j < len(group); j++ {
-		// 		fmt.Println("GG ", group)
-
-		// 		// for len(group[j]) < len(group[j+1]) && (j <= len(group)-1) {
-		// 		// 	tempArr = append(tempArr, i)
-		// 		// 	i--
-		// 		// }
-		// 		// bestPath[j] = tempArr
-		// 	}
-		// }
+	for i, group := range info.Groups {
+		group = SortPaths(group)
+		for j := 0; j < len(group)-1; j++ {
+			fmt.Println()
+			fmt.Println("test ", i)
+			index := strconv.Itoa(j)
+			ant := "L" + index
+			for len(group[j]) <= len(group[j+1])+info.Nbr {
+				group[j] = append(group[j], ant)
+				info.Nbr--
+				if info.Nbr <= 0 {
+					break
+				}
+			}
+			fmt.Println("-- ", group[j])
+		}
 	}
+
 	fmt.Println("LAST ", bestPath)
 	// fmt.Println("=> ", path)
 }
