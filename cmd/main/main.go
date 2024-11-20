@@ -10,7 +10,7 @@ import (
 func main() {
 	test := cmd.ParseFIle()
 	cmd.FindGroups(test)
-	cmd.PrintPaths(test)
+	cmd.PrintAnts(test)
 }
 
 func init() {

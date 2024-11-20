@@ -42,8 +42,8 @@ func FindGroups(info *Info) {
 
 		info.Collect = [][]string{}
 	}
-	// fmt.Println("******************************************************\n", info.Groups)
 	for _, group := range info.Groups {
 		fmt.Println("******************** ", group)
 	}
+	// fmt.Println("******************** ", info.Groups[0])
 }
