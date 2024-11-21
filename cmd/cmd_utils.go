@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"regexp"
+	"sort"
 	"strings"
 )
 
@@ -36,6 +37,13 @@ func Contain(paths [][]string) map[string]bool {
 	}
 	// fmt.Println("rrrrrrrr ", exist)
 	return exist
+}
+
+func SortPaths(paths [][]string) [][]string {
+	sort.Slice(paths, func(i, j int) bool {
+		return len(paths[i]) < len(paths[j])
+	})
+	return paths
 }
 
 func IsValid(line string, key string) bool {

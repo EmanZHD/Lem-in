@@ -37,13 +37,14 @@ func FindGroups(info *Info) {
 		fmt.Println("----> ", path)
 		info.Collect = append(info.Collect, path)
 		BfsHelper(info, info.Collect)
-		fmt.Println("--------------------------- ", info.Collect)
+		// fmt.Println("--------------------------- ", info.Collect)
 		info.Groups = append(info.Groups, info.Collect)
 
 		info.Collect = [][]string{}
 	}
 	for _, group := range info.Groups {
-		fmt.Println("******************** ", group)
+		SortPaths(group)
+		// fmt.Println("******************** ", group)
 	}
-	// fmt.Println("******************** ", info.Groups[0])
+	fmt.Println("******************** ", info.Groups[0])
 }
