@@ -4,24 +4,20 @@ import (
 	"os"
 	"strings"
 
-	"Lem-in-izahid/cmd"
+	"Lem-in-izahid/algo"
 )
 
 func main() {
-	test := cmd.ParseFIle()
-	cmd.FindGroups(test)
-	cmd.PrintAnts(test)
+	data := algo.ParseFIle()
+	algo.FindGroups(data)
+	algo.MoveAnts(data)
 }
 
 func init() {
 	switch true {
 	case len(os.Args) != 2:
-		cmd.Error("Usage: go run <programName> <fileName>")
+		algo.Error("Usage: go run <programName> <fileName>")
 	case !(strings.HasSuffix(os.Args[1], ".txt")):
-		cmd.Error("INvalid file extension")
+		algo.Error("Invalid file extension")
 	}
 }
-
-// L1-2 L2-3
-// L1-1 L2-1 L3-2
-// L3-1

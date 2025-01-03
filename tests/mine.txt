@@ -1,0 +1,130 @@
+package algo
+
+import (
+	"fmt"
+	"strings"
+)
+
+type Ant struct {
+	Id        string
+	Path      []string
+	StartLine int
+}
+
+func BestGroup(mapArr []map[int][]string, info *Info) {
+	stepsArr := []int{}
+	tempS, tempT := 0, 0
+	stepTurns := make(map[int][]int)
+	for i, mapA := range mapArr {
+		path := len(info.Groups[i][0])
+		ants := len(mapArr[i][0])
+		tempT = path - 1 + ants
+		for j, grp := range mapA {
+			tempS += len(grp) * len(info.Groups[i][j])
+		}
+		stepsArr = append(stepsArr, tempS, tempT)
+		stepTurns[i] = stepsArr
+		tempS = 0
+		stepsArr = nil
+	}
+	// fmt.Println("LEN          ", stepTurns)
+	if len(mapArr) == 0 {
+		Error("No path was found")
+	}
+	// fmt.Println("groups: ", info.Groups)
+	minSteps := MinSteps(stepTurns)
+	info.BestGroup = mapArr[minSteps]
+	info.Turns = stepTurns[minSteps][1]
+	// fmt.Println(stepTurns)
+	PrintAnts(info, minSteps)
+}
+
+// PrintAnts
+func PrintAnts(info *Info, index int) {
+	fmt.Println("=============finql================")
+	AntMoves := info.BestGroup
+	paths := info.Groups[index]
+	fmt.Println("AntMoves", AntMoves)
+	fmt.Println("paths ", paths)
+	var ants []Ant
+	for i, moves := range AntMoves {
+		for moveIndex, move := range moves {
+			elem := Ant{
+				Id:        move,
+				Path:      paths[i],
+				StartLine: moveIndex,
+			}
+			ants = append(ants, elem)
+		}
+	}
+	lines := make([][]string, info.Turns)
+	for _, ant := range ants {
+		node := 0
+		for i := ant.StartLine; i < info.Turns; i++ {
+			if node < len(ant.Path) {
+				lines[i] = append(lines[i], ant.Id+"-"+ant.Path[node])
+				node++
+			}
+		}
+	}
+	for _, line := range lines {
+		fmt.Printf(strings.Join(line, " ") + "\n")
+	}
+}
+
+func MoveAnts(info *Info) {
+	mapArr := []map[int][]string{}
+
+	fmt.Println(info.Groups)
+	for _, group := range info.Groups {
+		mapArr = append(mapArr, AntPaths(info, group))
+	}
+	// fmt.Println(mapArr)
+
+	for _, group := range mapArr {
+		fmt.Println("MAP******************** ", group)
+	}
+	// fmt.Println("MAP ", copy)
+	BestGroup(mapArr, info)
+	// fmt.Println("origin ", info.Groups)
+	// fmt.Println("copy ", copy)
+}
+
+func AntPaths(info *Info, paths [][]string) map[int][]string {
+	pathSize := make(map[int]int, len(paths))
+	antPaths := make(map[int][]string, info.AntNbr)
+	for i := 0; i < len(paths); i++ {
+		pathSize[i] = len(paths[i]) + 1
+	}
+	antPaths[0] = append(antPaths[0], fmt.Sprintf("L%v", info.AntNbr))
+	i := 1
+	for {
+		for j := 0; j < len(pathSize); j++ {
+			fmt.Println(antPaths)
+			if len(paths) == 1 {
+				antPaths[j] = append(antPaths[j], fmt.Sprintf("L%v", i))
+				i++
+			} else {
+				if j+1 < len(paths) && i < info.AntNbr {
+					if pathSize[j] <= pathSize[j+1] {
+						for pathSize[j] <= pathSize[j+1] {
+							antPaths[j] = append(antPaths[j], fmt.Sprintf("L%v", i))
+							i++
+							pathSize[j]++
+						}
+					} else {
+						for pathSize[j] > pathSize[j+1] {
+							antPaths[j] = append(antPaths[j], fmt.Sprintf("L%v", i))
+							i++
+							pathSize[j+1]++
+						}
+					}
+				}
+			}
+		}
+		if i == info.AntNbr {
+			break
+		}
+	}
+	return antPaths
+}
